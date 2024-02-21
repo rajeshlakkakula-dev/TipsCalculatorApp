@@ -1,12 +1,13 @@
 package com.example.tipscalculatorapp
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
@@ -49,27 +50,30 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun EditNumberField(modifier: Modifier = Modifier) {
-
-    var amountInput by remember { mutableStateOf("") }
-
-    val amount = amountInput.toDoubleOrNull() ?:  0.0
-    val tip = calculateTipAmount(amount)
-
+fun EditNumberField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     TextField(
-        value = amountInput,
-        onValueChange = { amountInput = it },
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(stringResource(R.string.bill_amount)) },
         singleLine = true,
-        label = {Text(stringResource(R.string.bill_amount))},
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-        modifier = modifier
+        modifier = modifier,
 
-    )
+        )
 
 }
 
 @Composable
 fun TipLayout() {
+
+    var amountInput by remember { mutableStateOf("") }
+
+    val amount = amountInput.toDoubleOrNull() ?: 0.0
+    val tip = calculateTipAmount(amount)
 
     Column(
         modifier = Modifier
@@ -86,16 +90,19 @@ fun TipLayout() {
         )
 
         EditNumberField(
+            value = amountInput,
+            onValueChange = { amountInput = it },
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth()
         )
 
-
         Text(
-            text = stringResource(R.string.tip_amount, "$0.00"),
+            text = stringResource(R.string.tip_amount, tip),
             style = MaterialTheme.typography.displaySmall
         )
+        
+        Spacer(modifier = Modifier.height(150.dp))
 
 
     }
