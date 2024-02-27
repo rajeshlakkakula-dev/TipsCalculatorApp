@@ -3,6 +3,7 @@ package com.example.tipscalculatorapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,6 +35,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tipscalculatorapp.ui.theme.TipsCalculatorAppTheme
+import org.jetbrains.annotations.VisibleForTesting
 import java.text.NumberFormat
 
 class MainActivity : ComponentActivity() {
@@ -166,7 +168,9 @@ fun TipLayout() {
 
 }
 
-fun calculateTipAmount(amount: Double, tipPercent: Double, roundUp: Boolean): String {
+
+@VisibleForTesting
+internal fun calculateTipAmount(amount: Double, tipPercent: Double, roundUp: Boolean): String {
 
     var tip = tipPercent / 100 * amount // 15%/100 * 100 = 15
 
